@@ -10,11 +10,11 @@ public class Main {
         int[] prices = {100, 200, 300};
         Scanner scanner = new Scanner(System.in);
 
-        File saveFile = new File("Basket.txt");
+        File saveFile = new File("Basket.bin");
 
         Basket basket = null;
         if (saveFile.exists()){
-            basket = Basket.loadFromTxtFile(saveFile);
+            basket = Basket.loadFromBin(saveFile);
         } else {
             basket = new Basket(prices, products);
         }
@@ -42,7 +42,7 @@ public class Main {
             int productNumber = Integer.parseInt(partsSplit[0]) - 1;
             int productCount = Integer.parseInt(partsSplit[1]);
             basket.addToCart(productNumber, productCount);
-            basket.saveTxt(saveFile);
+            basket.saveBin(saveFile);
 
             totalCount[productNumber] += productCount;
         }
