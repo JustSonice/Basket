@@ -32,4 +32,5 @@ out
 Basket.txt
 .idea
 Basket.iml
-/.idea/
+log.csv
+target

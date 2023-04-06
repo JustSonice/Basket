@@ -1,3 +1,6 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.*;
 import java.util.Arrays;
 
@@ -33,8 +36,11 @@ public class Basket {
         System.out.println("Итог: " + totalPrice + " руб");
     }
 
-    public void saveTxt(File textFile) {
+    public void saveJSON(File textFile) {
         try (PrintWriter out = new PrintWriter(textFile)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(this);
+            out.print(json);
             for (String product : products) {
                 out.print(product + " ");
             }
@@ -55,23 +61,16 @@ public class Basket {
         }
     }
 
-    public static Basket loadFromTxtFile(File textFile) throws IOException {
+    public static Basket loadFromJSONFile(File textFile) throws IOException {
         Basket basket = new Basket();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(textFile))) {
-            String productS = bufferedReader.readLine();
-            String pricesS = bufferedReader.readLine();
-            String quantitiesS = bufferedReader.readLine();
-
-            basket.products = productS.split(" ");
-            basket.prices = Arrays.stream(pricesS.split(" "))
-                    .map(Integer::parseInt)
-                    .mapToInt(i -> i)
-                    .toArray();
-
-            basket.quantities = Arrays.stream(quantitiesS.split(" "))
-                    .map(Integer::parseInt)
-                    .mapToInt(i -> i)
-                    .toArray();
+            StringBuilder builder = new StringBuilder();
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                builder.append(line);
+            }
+            Gson gson = new Gson();
+            basket = gson.fromJson(builder.toString(), Basket.class);
         }
         return basket;
     }
