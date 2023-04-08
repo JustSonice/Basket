@@ -5,9 +5,9 @@ import java.io.*;
 import java.util.Arrays;
 
 public class Basket {
-    protected int[] prices;
-    protected String[] products;
-    protected int[] quantities;
+    int[] prices;
+    String[] products;
+    int[] quantities;
 
     public Basket(int[] prices, String[] products) {
         this.prices = prices;
